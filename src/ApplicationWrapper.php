@@ -97,6 +97,8 @@
 				),
 				'namespace'  => Config::get( 'measurements.namespace' ),
 				'googlemaps' => $this->googleMapsUrl(),
+				'version'      => Config::get( 'version', '' ),
+				'enabled_tabs' => Config::get( 'enabled_tabs', array() )
 			) );
 		}
 

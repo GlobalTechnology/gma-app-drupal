@@ -1,5 +1,7 @@
 <?php return array(
 
+	'version'      => '1.0.0',
+
 	/**
 	 * Proxy Granting Ticket Service
 	 *
@@ -57,4 +59,6 @@
 		'endpoint' => 'https://maps.googleapis.com/maps/api/js?sensor=false',
 		'apiKey'   => false,
 	),
+	
+	'enabled_tabs' => array('map', 'measurements', 'reports', 'admin')
 );

@@ -27,11 +27,6 @@ function gma_app_drupal_help($path, $arg) {
   }
 }
 
-function gma_app_drupal_css_alter(&$css) {
-  // Remove defaults.css file.
-  unset($css[drupal_get_path('module', 'system') . '/defaults.css']);
-}
-
 /**
  * Implements gma_app_drupal_block_info().
  */
