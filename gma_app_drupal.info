@@ -1,0 +1,4 @@
+name = GMA for Drupal
+description = A module that allows you to connect to GMA.
+core = 7.x
+version = 2.0

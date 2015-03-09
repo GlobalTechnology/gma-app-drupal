@@ -1,0 +1,63 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+//Note:  Do not include the opening and closing PHP tags when you copy this code
+
+/**
+ * @file
+ * The main file in the GMA module.
+ */
+ 
+/**
+ * Implements gma_app_drupal_help().
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function gma_app_drupal_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#gma_app_drupal":
+      return '<p>' . t("A module that allows you to connect to GMA.") . '</p>';
+      break;
+  }
+}
+
+function gma_app_drupal_css_alter(&$css) {
+  // Remove defaults.css file.
+  unset($css[drupal_get_path('module', 'system') . '/defaults.css']);
+}
+
+/**
+ * Implements gma_app_drupal_block_info().
+ */
+function gma_app_drupal_block_info() {
+  $blocks['gma_app_drupal'] = array(
+    // The name that will appear in the block list.
+    'info' => t('GMA for Drupal'),
+    // Default setting.
+    'cache' => DRUPAL_CACHE_PER_ROLE,
+  );
+  return $blocks;
+}
+/**
+ * Implements gma_app_drupal_block_view().
+ * 
+ * Prepares the contents of the block.
+ */
+function gma_app_drupal_block_view($delta = '') {
+	$block['title'] = t(' ');
+  switch ($delta) {
+    case 'gma_app_drupal':
+      $block['subject'] = t('GMA for Drupal');
+      if(user_is_logged_in()) {
+		require_once( __DIR__ . '/page-template.php' );
+      }
+    return $block;
+  }
+  
+}
