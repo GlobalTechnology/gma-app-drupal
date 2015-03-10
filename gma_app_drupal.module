@@ -1,58 +1,89 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);
-//Note:  Do not include the opening and closing PHP tags when you copy this code
-
-/**
- * @file
- * The main file in the GMA module.
- */
+	/*
+	 * Plugin Name: Global Measurements Application
+	 * Plugin URI:  gcx.org
+	 * Description: GCM App
+	 * Author:      Brian Zoetewey
+	 * Author URI:  gcx.org
+	 * Version:     0.0.1
+	 * Text Domain: gmaapp
+	 * Domain Path: /languages/
+	 * License:     Modified BSD
+	 */
+	/*
+	 * Copyright (c) 2014, Campus Crusade for Christ, Intl.
+	 * All rights reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without modification,
+	 * are permitted provided that the following conditions are met:
+	 *
+	 *     Redistributions of source code must retain the above copyright notice, this
+	 *         list of conditions and the following disclaimer.
+	 *     Redistributions in binary form must reproduce the above copyright notice,
+	 *         this list of conditions and the following disclaimer in the documentation
+	 *         and/or other materials provided with the distribution.
+	 *     Neither the name of CAMPUS CRUSADE FOR CHRIST nor the names of its
+	 *         contributors may be used to endorse or promote products derived from this
+	 *         software without specific prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	 * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+	 * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+	 * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	 * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+	 * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+	 * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+	 * OF THE POSSIBILITY OF SUCH DAMAGE.
+	 */
+	/**
+	 * @file
+	 * The main file in the GMA module.
+	 */
  
-/**
- * Implements gma_app_drupal_help().
- *
- * Displays help and module information.
- *
- * @param path 
- *   Which path of the site we're using to display help
- * @param arg 
- *   Array that holds the current path as returned from arg() function
- */
-function gma_app_drupal_help($path, $arg) {
-  switch ($path) {
-    case "admin/help#gma_app_drupal":
-      return '<p>' . t("A module that allows you to connect to GMA.") . '</p>';
-      break;
-  }
-}
+	/**
+	 * Implements gma_app_drupal_help().
+	 *
+	 * Displays help and module information.
+	 *
+	 * @param path 
+	 *   Which path of the site we're using to display help
+	 * @param arg 
+	 *   Array that holds the current path as returned from arg() function
+	 */
+	function gma_app_drupal_help($path, $arg) {
+		if($path=="admin/help#gma_app_drupal") {
+			return '<p>' . t( "A module that allows you to connect to GMA." ) . '</p>';
+		}
+	}
 
-/**
- * Implements gma_app_drupal_block_info().
- */
-function gma_app_drupal_block_info() {
-  $blocks['gma_app_drupal'] = array(
-    // The name that will appear in the block list.
-    'info' => t('GMA for Drupal'),
-    // Default setting.
-    'cache' => DRUPAL_CACHE_PER_ROLE,
-  );
-  return $blocks;
-}
-/**
- * Implements gma_app_drupal_block_view().
- * 
- * Prepares the contents of the block.
- */
-function gma_app_drupal_block_view($delta = '') {
-	$block['title'] = t(' ');
-  switch ($delta) {
-    case 'gma_app_drupal':
-      $block['subject'] = t('GMA for Drupal');
-      if(user_is_logged_in()) {
-		require_once( __DIR__ . '/page-template.php' );
-      }
-    return $block;
-  }
-  
-}
+	/**
+ 	 * Implements gma_app_drupal_block_info().
+	 */
+	function gma_app_drupal_block_info() {
+		$blocks['gma_app_drupal'] = array(
+		// The name that will appear in the block list.
+		'info' => t('GMA for Drupal'),
+		// Default setting.
+		'cache' => DRUPAL_CACHE_PER_ROLE,
+		);
+		return $blocks;
+	}
+
+	/**
+	 * Implements gma_app_drupal_block_view().
+	 * 
+	 * Prepares the contents of the block.
+	 */
+	function gma_app_drupal_block_view($delta = '') {
+	
+		// The GMA App already has a title, so we are removing the one for the Drupal block
+		$block['title'] = t(' ');
+		
+		if ( $delta == 'gma_app_drupal' && user_is_logged_in() ) {
+			$block['subject'] = t('GMA for Drupal');
+			require_once( __DIR__ . '/page-template.php' );
+			return $block;
+		}
+	}

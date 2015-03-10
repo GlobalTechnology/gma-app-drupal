@@ -4,31 +4,23 @@
 
 	$wrapper = ApplicationWrapper::singleton();
 	$wrapper->authenticate();
-	/*
-	drupal_add_css(drupal_get_path('module', 'gma_app_drupal') . '/app/vendor/bootstrap/dist/css/bootstrap.css');
-	drupal_add_css(drupal_get_path('module', 'gma_app_drupal') . '/app/vendor/bootstrap/dist/css/bootstrap-theme.css');
-	drupal_add_css(drupal_get_path('module', 'gma_app_drupal') . '/app/css/spinner.css');
-	drupal_add_css(drupal_get_path('module', 'gma_app_drupal') . '/app/css/gcm.css');
 	
+	// Creating iFrame content
+	// Links to CSS and JS files
+	$module_path = base_path() . drupal_get_path('module', 'gma_app_drupal');
+	$bootstrap_css = "$module_path/app/vendor/bootstrap/dist/css/bootstrap.css";
+	$bootstrap_theme_css = "$module_path/app/vendor/bootstrap/dist/css/bootstrap-theme.css";
+	$spinner_css =  "$module_path/app/css/spinner.css";
+	$gcm_css = "$module_path/app/css/gcm.css";
 
-	drupal_add_js(, array('type' => 'file', 'scope' => 'footer'));
-	drupal_add_js('var gma = window.gma = window.gma || {};gma.config = '. $wrapper->appConfig() .' ;', array('type' => 'inline', 'scope' => 'footer'));
+	$jquery_js = "$module_path/app/vendor/jquery/dist/jquery.js";
+	$app_config = $wrapper->appConfig();
 
-	$block['content']='<div ng-include="\'' .base_path(). drupal_get_path('module', 'gma_app_drupal') .'/app/template/app.html\'"></div>
-	<script type="application/javascript" data-main="' .base_path() . drupal_get_path('module', 'gma_app_drupal') .'/app/js/main.js" src="' .base_path() . drupal_get_path('module', 'gma_app_drupal') .'/app/vendor/requirejs/require.js"></script>';
-	*/
-	$bootstrap_css=drupal_get_path('module', 'gma_app_drupal') . '/app/vendor/bootstrap/dist/css/bootstrap.css';
-	$bootstrap_theme_css=drupal_get_path('module', 'gma_app_drupal') . '/app/vendor/bootstrap/dist/css/bootstrap-theme.css';
-	$spinner_css=drupal_get_path('module', 'gma_app_drupal') . '/app/css/spinner.css';
-	$gcm_css=drupal_get_path('module', 'gma_app_drupal') . '/app/css/gcm.css';
-
-	$jquery_js=drupal_get_path('module', 'gma_app_drupal') . '/app/vendor/jquery/dist/jquery.js';
-	$app_config=$wrapper->appConfig();
-
-	$app_html="'".base_path(). drupal_get_path('module', 'gma_app_drupal') ."/app/template/app.html'";
-	$app_js=base_path(). drupal_get_path('module', 'gma_app_drupal') ."/app/js/main.js";
-	$app_js_require=base_path() . drupal_get_path('module', 'gma_app_drupal') ."/app/vendor/requirejs/require.js";
+	$app_html = "'$module_path/app/template/app.html'";
+	$app_js = "$module_path/app/js/main.js";
+	$app_js_require = "$module_path/app/vendor/requirejs/require.js";
 	
+	// iFrame HTML structure
 	$html='<!doctype html>
 	<html>
 	<head>
@@ -49,12 +41,13 @@
 	<script type="application/javascript" data-main="'.$app_js.'" src="'.$app_js_require.'"></script>
 	</body>
 	</html>';
-	$block['content']='<iframe id="gma_iframe" style="width:100%;height:600px;"></iframe>';
-	//drupal_add_js("$('#gma_iframe').val(`$html`);", array('type' => 'inline', 'scope' => 'footer'));
-	//drupal_add_js("document.getElementById('gma_iframe').innerHTML = `$html`;", array('type' => 'inline', 'scope' => 'footer'));
+	
+	// Adding iFrame to page
+	$block['content']='<iframe id="gma_iframe" style="width:100%;min-height:600px;border:1px solid #ddd;"></iframe>';
+	
+	// Loading content into iFrame
 	drupal_add_js("var doc = document.getElementById('gma_iframe').contentWindow.document;
 	doc.open();
 	doc.write(`".$html."`);
-	doc.close();"
-	, array('type' => 'inline', 'scope' => 'footer'));
+	doc.close();" , array('type' => 'inline', 'scope' => 'footer'));
 }

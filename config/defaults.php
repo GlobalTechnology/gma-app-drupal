@@ -60,5 +60,8 @@
 		'apiKey'   => false,
 	),
 	
+	/**
+	 * Which tabls to show
+	 */
 	'enabled_tabs' => array('map', 'measurements', 'reports', 'admin')
 );
